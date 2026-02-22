@@ -1,0 +1,127 @@
+name: Smart Scraper (Hybrid)
+
+# Try self-hosted first, fallback to proxy if unavailable
+# Best of both worlds
+
+on:
+  schedule:
+    - cron: '0 9 * * *'
+
+  workflow_dispatch:
+    inputs:
+      force_proxy:
+        description: 'Force use of proxy (skip self-hosted)'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  # Try self-hosted runner first
+  try-self-hosted:
+    if: ${{ !inputs.force_proxy }}
+    runs-on: self-hosted
+    timeout-minutes: 30
+    continue-on-error: true
+    outputs:
+      success: ${{ steps.check.outputs.success }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Run full pipeline
+        id: pipeline
+        run: |
+          python3 scripts/scrape_neighborhoods.py && \
+          python3 scripts/filter_and_analyze.py && \
+          python3 scripts/parse_descriptions.py && \
+          python3 scripts/rank_by_distance.py && \
+          python3 scripts/generate_pdf_report.py
+        env:
+          DISPLAY: :0
+        continue-on-error: true
+
+      - name: Check success
+        id: check
+        run: |
+          if [ -f "reports/apartment_urls.txt" ]; then
+            echo "success=true" >> $GITHUB_OUTPUT
+          else
+            echo "success=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit results
+        if: steps.check.outputs.success == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions Bot"
+          git add data/*.csv reports/*
+          git diff --quiet && git diff --staged --quiet || \
+            (git commit -m "Update (self-hosted) $(date +'%Y-%m-%d')" && git push)
+
+  # Fallback to proxy if self-hosted failed or unavailable
+  fallback-proxy:
+    if: ${{ always() && (inputs.force_proxy || needs.try-self-hosted.outputs.success != 'true') }}
+    needs: [try-self-hosted]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@latest
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run with proxy
+        env:
+          PROXY_URL: ${{ secrets.PROXY_URL }}
+        run: |
+          echo "🔄 Self-hosted unavailable, using proxy fallback"
+          python3 -c "
+          import sys
+          from pathlib import Path
+          sys.path.insert(0, str(Path.cwd()))
+          from src.idealista_scraper_enhanced import EnhancedIdealistaScraper
+
+          scraper = EnhancedIdealistaScraper(headless=True)
+          ajuda_df = scraper.scrape_neighborhood('lisboa', 'ajuda', max_pages=5)
+          if not ajuda_df.empty:
+              scraper.save_to_csv(ajuda_df, 'data/lisboa_ajuda_listings.csv')
+
+          alcantara_df = scraper.scrape_neighborhood('lisboa', 'alcantara', max_pages=5)
+          if not alcantara_df.empty:
+              scraper.save_to_csv(alcantara_df, 'data/lisboa_alcantara_listings.csv')
+          "
+
+      - name: Complete pipeline
+        run: |
+          python3 scripts/filter_and_analyze.py
+          python3 scripts/parse_descriptions.py
+          python3 scripts/rank_by_distance.py
+          python3 scripts/generate_pdf_report.py
+
+      - name: Commit results
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions Bot"
+          git add data/*.csv reports/*
+          git diff --quiet && git diff --staged --quiet || \
+            (git commit -m "Update (proxy fallback) $(date +'%Y-%m-%d')" && git push)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: hybrid-reports
+          path: reports/*

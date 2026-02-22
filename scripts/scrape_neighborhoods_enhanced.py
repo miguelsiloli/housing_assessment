@@ -1,0 +1,82 @@
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+"""
+Scrape specific Lisbon neighborhoods using Enhanced Scraper
+Supports proxy and better anti-detection
+"""
+
+from src.idealista_scraper_enhanced import EnhancedIdealistaScraper
+import time
+import os
+
+print("=" * 60)
+print("IDEALISTA ENHANCED SCRAPER")
+print("Target: Lisboa - Ajuda & Alcantara")
+print("=" * 60)
+
+# Check for proxy
+proxy = os.getenv('PROXY_URL')
+if proxy:
+    print(f"🔒 Using proxy from environment")
+else:
+    print("ℹ️  No proxy - using direct connection")
+
+# Determine if running in CI/headless environment
+is_ci = os.getenv('CI') == 'true' or os.getenv('GITHUB_ACTIONS') == 'true'
+headless = is_ci  # Headless in CI, non-headless locally
+
+print(f"🖥️  Mode: {'Headless (CI)' if headless else 'Non-headless (Local)'}")
+
+scraper = EnhancedIdealistaScraper(headless=headless)
+
+try:
+    # Scrape Ajuda
+    print("\n\n🏠 SCRAPING LISBOA, AJUDA...")
+    ajuda_df = scraper.scrape_neighborhood(
+        city='lisboa',
+        neighborhood='ajuda',
+        typology=None,  # Get all typologies
+        max_pages=5
+    )
+
+    if not ajuda_df.empty:
+        print(f"\n📊 AJUDA RESULTS ({len(ajuda_df)} listings):")
+        print(ajuda_df[['title', 'price', 'typology', 'location']].head(10))
+        scraper.save_to_csv(ajuda_df, 'data/lisboa_ajuda_listings.csv')
+    else:
+        print("⚠️ No Ajuda listings found")
+
+    # Wait between neighborhoods
+    delay = 12
+    print(f"\n⏳ Waiting {delay} seconds before next neighborhood...")
+    time.sleep(delay)
+
+    # Scrape Alcantara
+    print("\n\n🏠 SCRAPING LISBOA, ALCANTARA...")
+    alcantara_df = scraper.scrape_neighborhood(
+        city='lisboa',
+        neighborhood='alcantara',
+        typology=None,  # Get all typologies
+        max_pages=5
+    )
+
+    if not alcantara_df.empty:
+        print(f"\n📊 ALCANTARA RESULTS ({len(alcantara_df)} listings):")
+        print(alcantara_df[['title', 'price', 'typology', 'location']].head(10))
+        scraper.save_to_csv(alcantara_df, 'data/lisboa_alcantara_listings.csv')
+    else:
+        print("⚠️ No Alcantara listings found")
+
+    print("\n" + "=" * 60)
+    print("SCRAPING COMPLETE!")
+    print("=" * 60)
+
+    if not ajuda_df.empty:
+        print(f"\n✓ Ajuda: {len(ajuda_df)} listings → data/lisboa_ajuda_listings.csv")
+    if not alcantara_df.empty:
+        print(f"✓ Alcantara: {len(alcantara_df)} listings → data/lisboa_alcantara_listings.csv")
+
+finally:
+    del scraper
