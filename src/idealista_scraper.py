@@ -22,6 +22,7 @@ class IdealistaScraper:
         Args:
             headless: Run browser in headless mode (no GUI)
         """
+        import os
         self.base_url = "https://www.idealista.pt"
 
         # Setup undetected Chrome options
@@ -31,9 +32,22 @@ class IdealistaScraper:
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
         options.add_argument('--disable-blink-features=AutomationControlled')
+        options.add_argument('--disable-gpu')
+        options.add_argument('--window-size=1920,1080')
 
-        # Initialize undetected driver (Chrome version 143)
-        self.driver = uc.Chrome(options=options, version_main=143)
+        # Initialize undetected driver
+        # Don't pin version in CI environments - let it auto-detect
+        try:
+            if os.getenv('CI') or os.getenv('GITHUB_ACTIONS'):
+                print("Detected CI environment - using auto-detected Chrome version")
+                self.driver = uc.Chrome(options=options, use_subprocess=False)
+            else:
+                print("Using Chrome version 143")
+                self.driver = uc.Chrome(options=options, version_main=143)
+        except Exception as e:
+            print(f"Failed to initialize with version pinning, trying auto-detect: {e}")
+            self.driver = uc.Chrome(options=options, use_subprocess=False)
+
         self.driver.implicitly_wait(10)
 
         # Visit homepage first to establish session and avoid bot detection

@@ -8,13 +8,23 @@ Scrape specific Lisbon neighborhoods: Ajuda and Alcantara
 
 from src.idealista_scraper import IdealistaScraper
 import time
+import os
 
 print("=" * 60)
 print("IDEALISTA NEIGHBORHOOD SCRAPER")
 print("Target: Lisboa - Ajuda & Alcantara")
 print("=" * 60)
 
-scraper = IdealistaScraper(headless=False)
+# Auto-detect headless mode in CI environments
+is_ci = bool(os.getenv('CI') or os.getenv('GITHUB_ACTIONS'))
+headless_mode = is_ci or os.getenv('HEADLESS', '').lower() == 'true'
+
+if headless_mode:
+    print("🤖 Running in HEADLESS mode (CI detected)")
+else:
+    print("🖥️  Running with VISIBLE browser")
+
+scraper = IdealistaScraper(headless=headless_mode)
 
 try:
     # Scrape Ajuda
