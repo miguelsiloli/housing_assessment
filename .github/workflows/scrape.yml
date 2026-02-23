@@ -1,0 +1,110 @@
+name: Scrape Apartments
+
+on:
+  schedule:
+    # Run daily at 9 AM UTC (10 AM Lisbon time)
+    - cron: '0 9 * * *'
+
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  scrape-and-analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@latest
+        with:
+          chrome-version: stable
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run scraper
+        run: python3 scripts/scrape_neighborhoods.py
+        continue-on-error: true
+
+      - name: Filter apartments under budget
+        run: python3 scripts/filter_and_analyze.py
+        continue-on-error: true
+
+      - name: Parse amenities from descriptions
+        run: python3 scripts/parse_descriptions.py
+        continue-on-error: true
+
+      - name: Calculate distances to work/school
+        run: python3 scripts/rank_by_distance.py
+        continue-on-error: true
+
+      - name: Generate PDF report
+        run: python3 scripts/generate_pdf_report.py
+        continue-on-error: true
+
+      - name: Upload PDF to GitHub Release
+        run: |
+          # Find the latest PDF
+          PDF_FILE=$(ls -t reports/*.pdf 2>/dev/null | head -1)
+
+          if [ -z "$PDF_FILE" ]; then
+            echo "No PDF found, skipping release upload"
+            exit 0
+          fi
+
+          echo "Found PDF: $PDF_FILE"
+          PDF_NAME=$(basename "$PDF_FILE")
+          RELEASE_TAG="latest-report"
+          RELEASE_NAME="Latest Housing Analysis Report"
+
+          # Delete existing release and tag if they exist
+          gh release delete "$RELEASE_TAG" -y 2>/dev/null || true
+          git push origin :refs/tags/"$RELEASE_TAG" 2>/dev/null || true
+
+          # Create new release with PDF
+          gh release create "$RELEASE_TAG" "$PDF_FILE" \
+            --title "$RELEASE_NAME" \
+            --notes "**Updated:** $(date +'%Y-%m-%d %H:%M UTC')
+
+          📊 Latest apartment analysis report generated automatically by GitHub Actions.
+
+          **Direct PDF URL:**
+          \`https://github.com/${{ github.repository }}/releases/download/$RELEASE_TAG/$PDF_NAME\`
+
+          This release is automatically updated with each workflow run." \
+            --latest
+
+          echo "::notice::PDF available at: https://github.com/${{ github.repository }}/releases/download/$RELEASE_TAG/$PDF_NAME"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - name: Commit and push updated data
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions Bot"
+          git add data/*.csv reports/*.pdf reports/*.txt || true
+          git diff --quiet && git diff --staged --quiet || \
+            (git commit -m "Auto-update apartment data $(date +'%Y-%m-%d %H:%M')" && git push)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - name: Upload reports as artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: apartment-reports-${{ github.run_number }}
+          path: |
+            reports/*.pdf
+            reports/*.txt
+            data/apartments_with_ner.csv
+          retention-days: 30
