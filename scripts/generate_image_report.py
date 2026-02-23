@@ -8,6 +8,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import pandas as pd
+import os
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -42,7 +43,7 @@ def create_image_report(df, output_path='reports/apartments_with_images.pdf'):
 
     # Custom styles
     styles.add(ParagraphStyle(
-        name='Title',
+        name='ReportTitle',
         parent=styles['Heading1'],
         fontSize=20,
         textColor=colors.HexColor('#2c3e50'),
@@ -52,7 +53,7 @@ def create_image_report(df, output_path='reports/apartments_with_images.pdf'):
     ))
 
     styles.add(ParagraphStyle(
-        name='Subtitle',
+        name='ReportSubtitle',
         fontSize=12,
         textColor=colors.HexColor('#7f8c8d'),
         alignment=TA_CENTER,
@@ -85,10 +86,10 @@ def create_image_report(df, output_path='reports/apartments_with_images.pdf'):
     story = []
 
     # Title page
-    story.append(Paragraph("🏠 Top 20 Lisbon Apartments", styles['Title']))
+    story.append(Paragraph("🏠 Top 20 Lisbon Apartments", styles['ReportTitle']))
     story.append(Paragraph(
         f"Net Effective Rent Analysis with Photos<br/>{datetime.now().strftime('%B %d, %Y')}",
-        styles['Subtitle']
+        styles['ReportSubtitle']
     ))
 
     # Summary box
@@ -142,11 +143,16 @@ def create_image_report(df, output_path='reports/apartments_with_images.pdf'):
         image_path = row.get('image_path')
         if image_path and os.path.exists(image_path):
             try:
-                img = Image(image_path, width=7*cm, height=5*cm)
-                img.hAlign = 'LEFT'
+                # Check if file is a valid image by checking size
+                file_size = os.path.getsize(image_path)
+                if file_size < 5000:  # Less than 5KB, likely a placeholder/logo
+                    img = Paragraph("<i>Placeholder image - not included</i>", styles['Normal'])
+                else:
+                    img = Image(image_path, width=7*cm, height=5*cm)
+                    img.hAlign = 'LEFT'
             except Exception as e:
                 print(f"  ⚠️ Error loading image {image_path}: {e}")
-                img = Paragraph("<i>Image not available</i>", styles['Normal'])
+                img = Paragraph("<i>Image format not supported</i>", styles['Normal'])
         else:
             img = Paragraph("<i>Image not available</i>", styles['Normal'])
 
@@ -258,5 +264,4 @@ def main():
     print(f"\n✅ Report saved to: {output_path}")
 
 if __name__ == '__main__':
-    import pandas as pd
     main()
