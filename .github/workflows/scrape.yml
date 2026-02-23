@@ -88,39 +88,85 @@ jobs:
           fi
         continue-on-error: true
 
-      - name: Upload PDF to GitHub Release
+      - name: Scrape listing images for top 20
         run: |
-          # Find the latest PDF
-          PDF_FILE=$(ls -t reports/*.pdf 2>/dev/null | head -1)
+          if [ -f "data/apartments_with_ner.csv" ]; then
+            echo "Scraping images for top 20 listings..."
+            python3 scripts/scrape_listing_images.py
+          else
+            echo "Skipping image scraping - no NER data available"
+          fi
+        continue-on-error: true
 
-          if [ -z "$PDF_FILE" ]; then
-            echo "No PDF found, skipping release upload"
+      - name: Generate enhanced PDF with images
+        run: |
+          if [ -f "data/apartments_with_images.csv" ]; then
+            echo "Generating enhanced PDF report with images..."
+            python3 scripts/generate_image_report.py
+          else
+            echo "Skipping enhanced report - no image data available"
+          fi
+        continue-on-error: true
+
+      - name: Upload PDFs to GitHub Release
+        run: |
+          # Find PDFs
+          NER_PDF=$(ls -t reports/*_ner_report.pdf 2>/dev/null | head -1)
+          IMAGE_PDF=$(ls -t reports/*_apartments_with_images.pdf 2>/dev/null | head -1)
+
+          if [ -z "$NER_PDF" ] && [ -z "$IMAGE_PDF" ]; then
+            echo "No PDFs found, skipping release upload"
             exit 0
           fi
 
-          echo "Found PDF: $PDF_FILE"
-          PDF_NAME=$(basename "$PDF_FILE")
           RELEASE_TAG="latest-report"
-          RELEASE_NAME="Latest Housing Analysis Report"
+          RELEASE_NAME="Latest Housing Analysis Reports"
 
           # Delete existing release and tag if they exist
           gh release delete "$RELEASE_TAG" -y 2>/dev/null || true
           git push origin :refs/tags/"$RELEASE_TAG" 2>/dev/null || true
 
-          # Create new release with PDF
-          gh release create "$RELEASE_TAG" "$PDF_FILE" \
+          # Build release notes
+          NOTES="**Updated:** $(date +'%Y-%m-%d %H:%M UTC')
+
+          📊 Latest apartment analysis reports generated automatically by GitHub Actions.
+
+          **Reports Available:**"
+
+          # Build file list
+          FILES=""
+
+          if [ -n "$NER_PDF" ]; then
+            NER_NAME=$(basename "$NER_PDF")
+            NOTES="$NOTES
+          - **NER Analysis Report**: \`https://github.com/${{ github.repository }}/releases/download/$RELEASE_TAG/$NER_NAME\`"
+            FILES="$NER_PDF"
+          fi
+
+          if [ -n "$IMAGE_PDF" ]; then
+            IMAGE_NAME=$(basename "$IMAGE_PDF")
+            NOTES="$NOTES
+          - **Enhanced Report with Images**: \`https://github.com/${{ github.repository }}/releases/download/$RELEASE_TAG/$IMAGE_NAME\`"
+            FILES="$FILES $IMAGE_PDF"
+          fi
+
+          NOTES="$NOTES
+
+          This release is automatically updated with each workflow run."
+
+          # Create new release with PDF(s)
+          gh release create "$RELEASE_TAG" $FILES \
             --title "$RELEASE_NAME" \
-            --notes "**Updated:** $(date +'%Y-%m-%d %H:%M UTC')
-
-          📊 Latest apartment analysis report generated automatically by GitHub Actions.
-
-          **Direct PDF URL:**
-          \`https://github.com/${{ github.repository }}/releases/download/$RELEASE_TAG/$PDF_NAME\`
-
-          This release is automatically updated with each workflow run." \
+            --notes "$NOTES" \
             --latest
 
-          echo "::notice::PDF available at: https://github.com/${{ github.repository }}/releases/download/$RELEASE_TAG/$PDF_NAME"
+          if [ -n "$NER_PDF" ]; then
+            echo "::notice::NER PDF available at: https://github.com/${{ github.repository }}/releases/download/$RELEASE_TAG/$(basename $NER_PDF)"
+          fi
+
+          if [ -n "$IMAGE_PDF" ]; then
+            echo "::notice::Image PDF available at: https://github.com/${{ github.repository }}/releases/download/$RELEASE_TAG/$(basename $IMAGE_PDF)"
+          fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
@@ -129,7 +175,7 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "GitHub Actions Bot"
-          git add data/*.csv reports/*.pdf reports/*.txt || true
+          git add data/*.csv reports/*.pdf reports/*.txt data/listing_images/*.jpg || true
           git diff --quiet && git diff --staged --quiet || \
             (git commit -m "Auto-update apartment data $(date +'%Y-%m-%d %H:%M')" && git push)
         env:
@@ -145,4 +191,6 @@ jobs:
             reports/*.pdf
             reports/*.txt
             data/apartments_with_ner.csv
+            data/apartments_with_images.csv
+            data/listing_images/*.jpg
           retention-days: 30
