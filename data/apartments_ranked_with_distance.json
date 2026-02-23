@@ -648,13 +648,13 @@
     "bedrooms":1.0,
     "value_score":40.4444444444,
     "coords":[
-      38.6999866,
-      -9.289332
+      38.6977625,
+      -9.2913012
     ],
-    "distance_to_work_km":7.0571685651,
-    "distance_to_school_km":12.2625905949,
-    "distance_score":10.299910022,
-    "total_score":50.7443544664
+    "distance_to_work_km":7.2536094717,
+    "distance_to_school_km":12.5018632169,
+    "distance_score":9.612366849,
+    "total_score":50.0568112934
   },
   {
     "price":980,

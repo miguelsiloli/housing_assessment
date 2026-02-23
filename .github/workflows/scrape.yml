@@ -54,11 +54,19 @@ jobs:
         run: |
           echo "=== Data files created ==="
           ls -lh data/ || echo "No data directory"
-          echo "=== Reports created ==="
-          ls -lh reports/ || echo "No reports directory"
+          if [ -f "data/lisboa_ajuda_listings.csv" ] || [ -f "data/lisboa_alcantara_listings.csv" ]; then
+            echo "✓ Scraping succeeded - new data available"
+          else
+            echo "⚠️ Scraping may have failed - will try to use existing data"
+          fi
 
       - name: Filter apartments under budget
-        run: python3 scripts/filter_and_analyze.py
+        run: |
+          if [ -f "data/lisboa_ajuda_listings.csv" ] || [ -f "data/lisboa_alcantara_listings.csv" ]; then
+            python3 scripts/filter_and_analyze.py
+          else
+            echo "No new scraped data, skipping filter step"
+          fi
         continue-on-error: true
 
       - name: Parse amenities from descriptions
@@ -70,7 +78,14 @@ jobs:
         continue-on-error: true
 
       - name: Generate PDF report
-        run: python3 scripts/generate_pdf_report.py
+        run: |
+          if [ -f "data/apartments_with_ner.csv" ]; then
+            echo "Found processed data, generating PDF report..."
+            python3 scripts/generate_pdf_report.py
+          else
+            echo "::warning::No processed data available for PDF generation"
+            echo "This may be the first run or scraping failed. PDF will not be generated."
+          fi
         continue-on-error: true
 
       - name: Upload PDF to GitHub Release
