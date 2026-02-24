@@ -1,8 +1,10 @@
 """
 Rank apartments by distance to work (Deloitte Restelo) and school (NOVA IMS)
+Now with standardized 1-5 scores by typology
 """
 
 import pandas as pd
+import numpy as np
 import json
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
@@ -13,6 +15,13 @@ geolocator = Nominatim(user_agent="housing_analysis")
 
 # Load ranked apartments
 df = pd.read_csv('data/apartments_ranked.csv')
+
+# Remove duplicates by URL before processing
+initial_count = len(df)
+df = df.drop_duplicates(subset='url', keep='first')
+duplicates_removed = initial_count - len(df)
+if duplicates_removed > 0:
+    print(f"✓ Removed {duplicates_removed} duplicate listings before distance calculation")
 
 print("=" * 100)
 print("CALCULATING DISTANCES TO WORK & SCHOOL")
@@ -138,8 +147,81 @@ df['distance_score'] = df.apply(calculate_distance_score, axis=1)
 # Recalculate total value score (original + distance)
 df['total_score'] = df['value_score'] + df['distance_score']
 
+
+# ============================================================================
+# STANDARDIZED SCORING SYSTEM (1-5) BY TYPOLOGY
+# ============================================================================
+
+print("\n" + "=" * 100)
+print("CALCULATING STANDARDIZED SCORES BY TYPOLOGY (1-5 scale)")
+print("=" * 100)
+
+def calculate_standardized_scores_by_typology(df):
+    """
+    Calculate 1-5 scores for price, area, and distance based on percentiles within each typology.
+    1 = worst/most expensive/smallest/farthest
+    5 = best/cheapest/largest/closest
+    """
+
+    df_scored = df.copy()
+
+    # Initialize score columns
+    df_scored['price_score'] = np.nan
+    df_scored['area_score'] = np.nan
+    df_scored['distance_work_score'] = np.nan
+
+    # Get unique typologies
+    typologies = df_scored['typology'].unique()
+
+    for typo in typologies:
+        mask = df_scored['typology'] == typo
+        typo_df = df_scored[mask].copy()
+
+        if len(typo_df) < 3:  # Skip if too few apartments in this typology
+            continue
+
+        print(f"\nCalculating scores for {typo} ({len(typo_df)} apartments)...")
+
+        # PRICE SCORE (lower price = higher score)
+        # Use percentile rank: lower price gets higher percentile
+        valid_prices = typo_df['price'].notna()
+        if valid_prices.sum() > 0:
+            # Rank from low to high (lower price = lower rank number)
+            price_ranks = typo_df.loc[valid_prices, 'price'].rank(method='average', ascending=True)
+            # Convert to percentile (0-100)
+            price_percentiles = (price_ranks - 1) / (len(price_ranks) - 1) * 100
+            # Convert to 1-5 score
+            price_scores = 1 + (price_percentiles / 25).clip(0, 4)
+            df_scored.loc[typo_df[valid_prices].index, 'price_score'] = price_scores.round(1)
+
+        # AREA SCORE (larger area = higher score)
+        valid_areas = typo_df['area_m2'].notna()
+        if valid_areas.sum() > 0:
+            # Rank from low to high (larger area = higher rank number)
+            area_ranks = typo_df.loc[valid_areas, 'area_m2'].rank(method='average', ascending=True)
+            # Convert to percentile (0-100)
+            area_percentiles = (area_ranks - 1) / (len(area_ranks) - 1) * 100
+            # Convert to 1-5 score
+            area_scores = 1 + (area_percentiles / 25).clip(0, 4)
+            df_scored.loc[typo_df[valid_areas].index, 'area_score'] = area_scores.round(1)
+
+        # DISTANCE TO WORK SCORE (closer = higher score)
+        valid_distances = typo_df['distance_to_work_km'].notna()
+        if valid_distances.sum() > 0:
+            # Rank from high to low (closer = lower distance = higher score)
+            distance_ranks = typo_df.loc[valid_distances, 'distance_to_work_km'].rank(method='average', ascending=True)
+            # Convert to percentile (0-100)
+            distance_percentiles = (distance_ranks - 1) / (len(distance_ranks) - 1) * 100
+            # Convert to 1-5 score
+            distance_scores = 1 + (distance_percentiles / 25).clip(0, 4)
+            df_scored.loc[typo_df[valid_distances].index, 'distance_work_score'] = distance_scores.round(1)
+
+    return df_scored
+
+df_scored = calculate_standardized_scores_by_typology(df)
+
 # Sort by total score
-df_sorted = df.sort_values('total_score', ascending=False)
+df_sorted = df_scored.sort_values('total_score', ascending=False)
 
 # Save results
 df_sorted.to_csv('data/apartments_ranked_with_distance.csv', index=False)
@@ -154,6 +236,10 @@ top_20 = df_sorted.head(20)
 for i, (idx, row) in enumerate(top_20.iterrows(), 1):
     print(f"\n#{i} - Total Score: {row['total_score']:.1f} (Value: {row['value_score']:.1f} + Distance: {row['distance_score']:.1f})")
     print(f"  {row['price']}€/month | {row['typology']} | {row.get('area_m2', '?')}m² | {row.get('price_per_m2', 0):.1f}€/m²")
+
+    # Display standardized scores
+    if pd.notna(row.get('price_score')):
+        print(f"  📊 Scores (1-5): Price={row['price_score']:.1f} | Area={row.get('area_score', 'N/A')} | Distance={row.get('distance_work_score', 'N/A')}")
 
     if pd.notna(row['distance_to_work_km']):
         print(f"  📍 {row['distance_to_work_km']:.1f}km to work | {row['distance_to_school_km']:.1f}km to NOVA IMS")
@@ -192,6 +278,32 @@ if len(apartments_with_distance) > 0:
     print(f"  Closest: {apartments_with_distance['distance_to_school_km'].min():.1f}km")
     print(f"  Farthest: {apartments_with_distance['distance_to_school_km'].max():.1f}km")
 
+# Show score statistics by typology
+print("\n" + "=" * 100)
+print("STANDARDIZED SCORES BY TYPOLOGY (1-5 scale)")
+print("=" * 100)
+
+for typo in sorted(df_sorted['typology'].unique()):
+    typo_df = df_sorted[df_sorted['typology'] == typo]
+
+    print(f"\n{typo} ({len(typo_df)} apartments):")
+
+    if typo_df['price_score'].notna().sum() > 0:
+        print(f"  Price Score - Avg: {typo_df['price_score'].mean():.2f}, Range: {typo_df['price_score'].min():.1f}-{typo_df['price_score'].max():.1f}")
+        print(f"    Best price: €{typo_df.loc[typo_df['price_score'].idxmax(), 'price']:.0f}")
+        print(f"    Worst price: €{typo_df.loc[typo_df['price_score'].idxmin(), 'price']:.0f}")
+
+    if typo_df['area_score'].notna().sum() > 0:
+        print(f"  Area Score - Avg: {typo_df['area_score'].mean():.2f}, Range: {typo_df['area_score'].min():.1f}-{typo_df['area_score'].max():.1f}")
+        print(f"    Largest: {typo_df.loc[typo_df['area_score'].idxmax(), 'area_m2']:.0f}m²")
+        print(f"    Smallest: {typo_df.loc[typo_df['area_score'].idxmin(), 'area_m2']:.0f}m²")
+
+    if typo_df['distance_work_score'].notna().sum() > 0:
+        print(f"  Distance Score - Avg: {typo_df['distance_work_score'].mean():.2f}, Range: {typo_df['distance_work_score'].min():.1f}-{typo_df['distance_work_score'].max():.1f}")
+        print(f"    Closest: {typo_df.loc[typo_df['distance_work_score'].idxmax(), 'distance_to_work_km']:.1f}km")
+        print(f"    Farthest: {typo_df.loc[typo_df['distance_work_score'].idxmin(), 'distance_to_work_km']:.1f}km")
+
 print("\n✓ Results saved to:")
 print("  - data/apartments_ranked_with_distance.csv")
 print("  - data/apartments_ranked_with_distance.json")
+print("\n✓ New columns added: price_score, area_score, distance_work_score (1-5 scale)")

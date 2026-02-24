@@ -12,7 +12,7 @@ import os
 
 print("=" * 60)
 print("IDEALISTA NEIGHBORHOOD SCRAPER")
-print("Target: Lisboa - Ajuda & Alcantara")
+print("Target: Lisboa - Ajuda, Alcantara, Campolide & Alfragide")
 print("=" * 60)
 
 # Auto-detect headless mode in CI environments
@@ -63,6 +63,46 @@ try:
     else:
         print("⚠️ No Alcantara listings found")
 
+    # Wait between neighborhoods to avoid detection
+    print("\nWaiting 10 seconds before next neighborhood...")
+    time.sleep(10)
+
+    # Scrape Campolide
+    print("\n\n🏠 SCRAPING LISBOA, CAMPOLIDE...")
+    campolide_df = scraper.scrape_neighborhood(
+        city='lisboa',
+        neighborhood='campolide',
+        typology=None,  # Get all typologies
+        max_pages=5
+    )
+
+    if not campolide_df.empty:
+        print(f"\n📊 CAMPOLIDE RESULTS ({len(campolide_df)} listings):")
+        print(campolide_df[['title', 'price', 'typology', 'location']].head(10))
+        scraper.save_to_csv(campolide_df, 'data/lisboa_campolide_listings.csv')
+    else:
+        print("⚠️ No Campolide listings found")
+
+    # Wait between neighborhoods to avoid detection
+    print("\nWaiting 10 seconds before next neighborhood...")
+    time.sleep(10)
+
+    # Scrape Alfragide
+    print("\n\n🏠 SCRAPING LISBOA, ALFRAGIDE...")
+    alfragide_df = scraper.scrape_neighborhood(
+        city='amadora',  # Alfragide is in Amadora municipality
+        neighborhood='alfragide',
+        typology=None,  # Get all typologies
+        max_pages=5
+    )
+
+    if not alfragide_df.empty:
+        print(f"\n📊 ALFRAGIDE RESULTS ({len(alfragide_df)} listings):")
+        print(alfragide_df[['title', 'price', 'typology', 'location']].head(10))
+        scraper.save_to_csv(alfragide_df, 'data/lisboa_alfragide_listings.csv')
+    else:
+        print("⚠️ No Alfragide listings found")
+
     print("\n" + "=" * 60)
     print("SCRAPING COMPLETE!")
     print("=" * 60)
@@ -71,6 +111,10 @@ try:
         print(f"\n✓ Ajuda: {len(ajuda_df)} listings → data/lisboa_ajuda_listings.csv")
     if not alcantara_df.empty:
         print(f"✓ Alcantara: {len(alcantara_df)} listings → data/lisboa_alcantara_listings.csv")
+    if not campolide_df.empty:
+        print(f"✓ Campolide: {len(campolide_df)} listings → data/lisboa_campolide_listings.csv")
+    if not alfragide_df.empty:
+        print(f"✓ Alfragide: {len(alfragide_df)} listings → data/lisboa_alfragide_listings.csv")
 
 finally:
     scraper.driver.quit()

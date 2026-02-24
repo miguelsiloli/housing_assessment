@@ -9,7 +9,9 @@ import os
 # Load only the fresh scraper output files
 csv_files = [
     'data/lisboa_ajuda_listings.csv',
-    'data/lisboa_alcantara_listings.csv'
+    'data/lisboa_alcantara_listings.csv',
+    'data/lisboa_campolide_listings.csv',
+    'data/lisboa_alfragide_listings.csv'
 ]
 
 # Filter to only existing files
@@ -35,6 +37,13 @@ if not all_listings:
 
 # Combine all data
 df_all = pd.concat(all_listings, ignore_index=True)
+
+# Remove duplicates based on URL (apartments can appear in multiple neighborhood searches)
+initial_count = len(df_all)
+df_all = df_all.drop_duplicates(subset='url', keep='first')
+duplicates_removed = initial_count - len(df_all)
+if duplicates_removed > 0:
+    print(f"✓ Removed {duplicates_removed} duplicate listings")
 
 # Clean and convert price column to numeric
 df_all['price'] = pd.to_numeric(df_all['price'], errors='coerce')

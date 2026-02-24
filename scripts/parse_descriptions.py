@@ -6,11 +6,15 @@ import pandas as pd
 import json
 import re
 
-# Load the detailed listings (which have descriptions)
-with open('data/detailed_listings.json', 'r', encoding='utf-8') as f:
-    listings = json.load(f)
+# Load from filtered CSV (instead of old JSON file)
+df = pd.read_csv('data/filtered_under_1200.csv')
 
-df = pd.DataFrame(listings)
+# Remove duplicates by URL before processing
+initial_count = len(df)
+df = df.drop_duplicates(subset='url', keep='first')
+duplicates_removed = initial_count - len(df)
+if duplicates_removed > 0:
+    print(f"✓ Removed {duplicates_removed} duplicate listings before processing")
 
 print(f"Analyzing {len(df)} listings under 1200€\n")
 
@@ -67,13 +71,29 @@ def parse_features(desc):
 
     return features
 
-# Apply feature extraction
-print("Extracting features from descriptions...")
-features_list = df['description'].apply(parse_features)
-features_df = pd.DataFrame(features_list.tolist())
+# Apply feature extraction if descriptions are available
+if 'description' in df.columns:
+    print("Extracting features from descriptions...")
+    features_list = df['description'].apply(parse_features)
+    features_df = pd.DataFrame(features_list.tolist())
 
-# Merge with main dataframe
-df_enriched = pd.concat([df.reset_index(drop=True), features_df.reset_index(drop=True)], axis=1)
+    # Merge with main dataframe
+    df_enriched = pd.concat([df.reset_index(drop=True), features_df.reset_index(drop=True)], axis=1)
+else:
+    print("⚠️ No descriptions available in source data. Setting default amenity values...")
+    # Add default columns for amenities
+    df_enriched = df.copy()
+    df_enriched['furnished'] = False
+    df_enriched['balcony'] = False
+    df_enriched['terrace'] = False
+    df_enriched['ac'] = False
+    df_enriched['elevator'] = None
+    df_enriched['parking'] = False
+    df_enriched['kitchen_equipped'] = False
+    df_enriched['renovated'] = False
+    df_enriched['bills_included'] = False
+    df_enriched['bathrooms'] = None
+    df_enriched['bedrooms'] = None
 
 # Calculate value score
 # Higher score = better value

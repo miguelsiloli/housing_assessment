@@ -26,9 +26,6 @@ price,title,url,location,area_m2,typology,source_file,price_per_m2
 900,"Apartamento T1 em Boa Hora, Ajuda",https://www.idealista.pt/imovel/34555773/,,50,T1,data/lisboa_ajuda_listings.csv,18.0
 870,"Apartamento T0 na Rua Giovanni Antinori, 4, Rio Seco - Casalinho, Ajuda",https://www.idealista.pt/imovel/34284629/,"Rua Giovanni Antinori, 4, Rio Seco - Casalinho, Ajuda",40,T0,data/lisboa_ajuda_listings.csv,21.75
 750,"Apartamento T0 na Rua das Chaminés D'El-Rei, 39, Caramão da Ajuda, Ajuda",https://www.idealista.pt/imovel/34575941/,"Rua das Chaminés D'El-Rei, 39, Caramão da Ajuda, Ajuda",25,T0,data/lisboa_ajuda_listings.csv,30.0
-1100,"Apartamento T2 na Travessa das Dores, 19, Boa Hora, Ajuda",https://www.idealista.pt/imovel/34821294/,"Travessa das Dores, 19, Boa Hora, Ajuda",78,T2,data/lisboa_ajuda_listings.csv,14.102564102564102
-800,"Apartamento T1 em Rio Seco - Casalinho, Ajuda",https://www.idealista.pt/imovel/34727469/,,35,T1,data/lisboa_ajuda_listings.csv,22.857142857142858
-1173,"Apartamento T1 no Beco João Alves, 4, Rio Seco - Casalinho, Ajuda",https://www.idealista.pt/imovel/34777785/,,55,T1,data/lisboa_ajuda_listings.csv,21.327272727272728
 870,"Apartamento T1 na Rua 1º de Maio, 69, Alto de Santo Amaro, Alcântara",https://www.idealista.pt/imovel/34824570/,"Rua 1º de Maio, 69, Alto de Santo Amaro, Alcântara",45,T1,data/lisboa_alcantara_listings.csv,19.333333333333332
 1100,"Apartamento T1 na Travessa do Gibraltar, Alvito - Quinta do Jacinto, Alcântara",https://www.idealista.pt/imovel/34766697/,"Travessa do Gibraltar, Alvito - Quinta do Jacinto, Alcântara",44,T1,data/lisboa_alcantara_listings.csv,25.0
 800,"Apartamento T0 na Rua Amadeu de Sousa Cardoso, s/n, Alto de Santo Amaro, Alcântara",https://www.idealista.pt/imovel/34822424/,"Rua Amadeu de Sousa Cardoso, s/n, Alto de Santo Amaro, Alcântara",25,T0,data/lisboa_alcantara_listings.csv,32.0
@@ -51,7 +48,3 @@ price,title,url,location,area_m2,typology,source_file,price_per_m2
 1100,"Apartamento T2 na Rua Cruz a Alcântara, 36, Alvito - Quinta do Jacinto, Alcântara",https://www.idealista.pt/imovel/33157926/,"Rua Cruz a Alcântara, 36, Alvito - Quinta do Jacinto, Alcântara",42,T2,data/lisboa_alcantara_listings.csv,26.19047619047619
 1100,"Apartamento T1 na Rua da Indústria, 33, Alto de Santo Amaro, Alcântara",https://www.idealista.pt/imovel/30445095/,"Rua da Indústria, 33, Alto de Santo Amaro, Alcântara",75,T1,data/lisboa_alcantara_listings.csv,14.666666666666666
 850,"Apartamento T2 na Rua da Junqueira, 1, Junqueira, Alcântara",https://www.idealista.pt/imovel/34736072/,"Rua da Junqueira, 1, Junqueira, Alcântara",40,T2,data/lisboa_alcantara_listings.csv,21.25
-870,"Apartamento T1 na Rua 1º de Maio, 69, Alto de Santo Amaro, Alcântara",https://www.idealista.pt/imovel/34824570/,"Rua 1º de Maio, 69, Alto de Santo Amaro, Alcântara",45,T1,data/lisboa_alcantara_listings.csv,19.333333333333332
-1100,"Apartamento T1 na Travessa do Gibraltar, Alvito - Quinta do Jacinto, Alcântara",https://www.idealista.pt/imovel/34766697/,"Travessa do Gibraltar, Alvito - Quinta do Jacinto, Alcântara",44,T1,data/lisboa_alcantara_listings.csv,25.0
-800,"Apartamento T0 na Rua Amadeu de Sousa Cardoso, s/n, Alto de Santo Amaro, Alcântara",https://www.idealista.pt/imovel/34822424/,"Rua Amadeu de Sousa Cardoso, s/n, Alto de Santo Amaro, Alcântara",25,T0,data/lisboa_alcantara_listings.csv,32.0
-1180,"Apartamento T1 no Largo do Calvário, Largo do Calvário - Lx Factory, Alcântara",https://www.idealista.pt/imovel/34602502/,,47,T1,data/lisboa_alcantara_listings.csv,25.106382978723403

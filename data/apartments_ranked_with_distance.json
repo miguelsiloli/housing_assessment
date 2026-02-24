@@ -225,13 +225,13 @@
     "bedrooms":null,
     "value_score":32.6296296296,
     "coords":[
-      38.7122619,
-      -9.2334536
+      38.7132805,
+      -9.2375438
     ],
-    "distance_to_work_km":2.2884021706,
-    "distance_to_school_km":7.2194741095,
-    "distance_score":31.1613812385,
-    "total_score":63.7910108681
+    "distance_to_work_km":2.6616366034,
+    "distance_to_school_km":7.5226968787,
+    "distance_score":29.4002265701,
+    "total_score":62.0298561997
   },
   {
     "price":1075,

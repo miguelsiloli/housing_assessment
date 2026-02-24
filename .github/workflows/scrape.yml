@@ -54,7 +54,7 @@ jobs:
         run: |
           echo "=== Data files created ==="
           ls -lh data/ || echo "No data directory"
-          if [ -f "data/lisboa_ajuda_listings.csv" ] || [ -f "data/lisboa_alcantara_listings.csv" ]; then
+          if [ -f "data/lisboa_ajuda_listings.csv" ] || [ -f "data/lisboa_alcantara_listings.csv" ] || [ -f "data/lisboa_campolide_listings.csv" ] || [ -f "data/lisboa_alfragide_listings.csv" ]; then
             echo "✓ Scraping succeeded - new data available"
           else
             echo "⚠️ Scraping may have failed - will try to use existing data"
@@ -62,7 +62,7 @@ jobs:
 
       - name: Filter apartments under budget
         run: |
-          if [ -f "data/lisboa_ajuda_listings.csv" ] || [ -f "data/lisboa_alcantara_listings.csv" ]; then
+          if [ -f "data/lisboa_ajuda_listings.csv" ] || [ -f "data/lisboa_alcantara_listings.csv" ] || [ -f "data/lisboa_campolide_listings.csv" ] || [ -f "data/lisboa_alfragide_listings.csv" ]; then
             python3 scripts/filter_and_analyze.py
           else
             echo "No new scraped data, skipping filter step"

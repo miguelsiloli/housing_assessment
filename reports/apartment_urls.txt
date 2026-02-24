@@ -1,7 +1,7 @@
 ================================================================================
 TOP 20 APARTMENTS - IDEALISTA LISTING URLS
 Net Effective Rent Analysis - Porta 65 Jovem
-Generated: 2026-02-23 14:37:23
+Generated: 2026-02-24 12:23:04
 ================================================================================
 
 #1 - NER: €265 (T1) | €367 (T2)
@@ -90,17 +90,6 @@ URL: https://www.idealista.pt/imovel/34788477/
 
 #9 - NER: €367 (T1) | €468 (T2)
 Gross Rent: €950
-Type: T1 | Area: 45m²
-Location: Travessa São Jerónimo, 2, Alvito - Quinta do Jacinto, Alcântara
-🏛️ ARU Zone (receives +20% subsidy bonus)
-Amenities: Elevator
-
-URL: https://www.idealista.pt/imovel/31161260/
-
---------------------------------------------------------------------------------
-
-#10 - NER: €367 (T1) | €468 (T2)
-Gross Rent: €950
 Type: T1 | Area: 50m²
 Location: Praceta Luís de Freitas Branco, 5, Paço de Arcos, Paço de Arcos, Oeiras e São Julião da Barra - Paço de Arcos - Caxias
 🏛️ ARU Zone (receives +20% subsidy bonus)
@@ -111,7 +100,7 @@ URL: https://www.idealista.pt/imovel/34669089/
 
 --------------------------------------------------------------------------------
 
-#11 - NER: €367 (T1) | €468 (T2)
+#10 - NER: €367 (T1) | €468 (T2)
 Gross Rent: €950
 Type: T1 | Area: 60m²
 Location: Rua Indústria, Alto de Santo Amaro, Alcântara
@@ -119,6 +108,17 @@ Location: Rua Indústria, Alto de Santo Amaro, Alcântara
 Amenities: Furnished, Terrace
 
 URL: https://www.idealista.pt/imovel/30166333/
+
+--------------------------------------------------------------------------------
+
+#11 - NER: €367 (T1) | €468 (T2)
+Gross Rent: €950
+Type: T1 | Area: 45m²
+Location: Travessa São Jerónimo, 2, Alvito - Quinta do Jacinto, Alcântara
+🏛️ ARU Zone (receives +20% subsidy bonus)
+Amenities: Elevator
+
+URL: https://www.idealista.pt/imovel/31161260/
 
 --------------------------------------------------------------------------------
 
@@ -135,17 +135,6 @@ URL: https://www.idealista.pt/imovel/34821294/
 
 #13 - NER: €369 (T1) | €500 (T2)
 Gross Rent: €1100
-Type: T2 | Area: 78m²
-Location: Travessa das Dores, 19, Boa Hora, Ajuda
-🏛️ ARU Zone (receives +20% subsidy bonus)
-Amenities: Elevator, Renovated
-
-URL: https://www.idealista.pt/imovel/34821294/
-
---------------------------------------------------------------------------------
-
-#14 - NER: €369 (T1) | €500 (T2)
-Gross Rent: €1100
 Type: T2 | Area: 42m²
 Location: Rua Cruz a Alcântara, 36, Alvito - Quinta do Jacinto, Alcântara
 🏛️ ARU Zone (receives +20% subsidy bonus)
@@ -155,7 +144,7 @@ URL: https://www.idealista.pt/imovel/33157926/
 
 --------------------------------------------------------------------------------
 
-#15 - NER: €369 (T1) | €500 (T2)
+#14 - NER: €369 (T1) | €500 (T2)
 Gross Rent: €1100
 Type: T2 | Area: 64m²
 Location: Rua Dom João de Castro, 19, Rio Seco - Casalinho, Ajuda
@@ -166,18 +155,18 @@ URL: https://www.idealista.pt/imovel/30991167/
 
 --------------------------------------------------------------------------------
 
-#16 - NER: €397 (T1) | €498 (T2)
-Gross Rent: €980
-Type: T1 | Area: 80m²
-Location: Estefânia, 2, Estefânia, São Jorge de Arroios, Arroios
+#15 - NER: €369 (T1) | €500 (T2)
+Gross Rent: €1100
+Type: T2 | Area: 78m²
+Location: Travessa das Dores, 19, Boa Hora, Ajuda
 🏛️ ARU Zone (receives +20% subsidy bonus)
-Amenities: Furnished, Elevator
+Amenities: Elevator, Renovated
 
-URL: https://www.idealista.pt/imovel/34828665/
+URL: https://www.idealista.pt/imovel/34821294/
 
 --------------------------------------------------------------------------------
 
-#17 - NER: €397 (T1) | €498 (T2)
+#16 - NER: €397 (T1) | €498 (T2)
 Gross Rent: €980
 Type: T1 | Area: 55m²
 Location: Rua António Sérgio, 15, Figueirinha - Augusto Castro, Oeiras e São Julião da Barra, Oeiras e São Julião da Barra - Paço de Arcos - Caxias
@@ -185,6 +174,17 @@ Location: Rua António Sérgio, 15, Figueirinha - Augusto Castro, Oeiras e São 
 Amenities: Furnished, Elevator
 
 URL: https://www.idealista.pt/imovel/32952012/
+
+--------------------------------------------------------------------------------
+
+#17 - NER: €397 (T1) | €498 (T2)
+Gross Rent: €980
+Type: T1 | Area: 80m²
+Location: Estefânia, 2, Estefânia, São Jorge de Arroios, Arroios
+🏛️ ARU Zone (receives +20% subsidy bonus)
+Amenities: Furnished, Elevator
+
+URL: https://www.idealista.pt/imovel/34828665/
 
 --------------------------------------------------------------------------------
 
