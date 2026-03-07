@@ -11,7 +11,17 @@ csv_files = [
     'data/lisboa_ajuda_listings.csv',
     'data/lisboa_alcantara_listings.csv',
     'data/lisboa_campolide_listings.csv',
-    'data/lisboa_alfragide_listings.csv'
+    'data/lisboa_alfragide_listings.csv',
+    'data/lisboa_amoreiras_listings.csv',
+    'data/lisboa_campo_de_ourique_listings.csv',
+    'data/lisboa_saldanha_listings.csv',
+    'data/lisboa_picoas_listings.csv',
+    'data/lisboa_estrela_listings.csv',
+    'data/lisboa_restelo_listings.csv',
+    'data/lisboa_belem_listings.csv',
+    'data/lisboa_santos_listings.csv',
+    'data/lisboa_benfica_listings.csv',
+    'data/lisboa_carnide_listings.csv'
 ]
 
 # Filter to only existing files
