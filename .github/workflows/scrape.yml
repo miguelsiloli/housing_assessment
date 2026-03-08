@@ -1,6 +1,14 @@
 name: Scrape Apartments
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'scripts/**'
+      - 'src/**'
+      - '.github/workflows/scrape.yml'
+
   schedule:
     # Run daily at 9 AM UTC (10 AM Lisbon time)
     - cron: '0 9 * * *'
@@ -54,15 +62,16 @@ jobs:
         run: |
           echo "=== Data files created ==="
           ls -lh data/ || echo "No data directory"
-          if [ -f "data/lisboa_ajuda_listings.csv" ] || [ -f "data/lisboa_alcantara_listings.csv" ] || [ -f "data/lisboa_campolide_listings.csv" ] || [ -f "data/lisboa_alfragide_listings.csv" ]; then
+          if compgen -G "data/lisboa_*_listings.csv" > /dev/null; then
             echo "✓ Scraping succeeded - new data available"
+            ls -1 data/lisboa_*_listings.csv | wc -l | xargs echo "Number of neighborhood files:"
           else
             echo "⚠️ Scraping may have failed - will try to use existing data"
           fi
 
       - name: Filter apartments under budget
         run: |
-          if [ -f "data/lisboa_ajuda_listings.csv" ] || [ -f "data/lisboa_alcantara_listings.csv" ] || [ -f "data/lisboa_campolide_listings.csv" ] || [ -f "data/lisboa_alfragide_listings.csv" ]; then
+          if compgen -G "data/lisboa_*_listings.csv" > /dev/null; then
             python3 scripts/filter_and_analyze.py
           else
             echo "No new scraped data, skipping filter step"
