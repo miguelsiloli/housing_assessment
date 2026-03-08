@@ -15,16 +15,16 @@ from src.ner_analyzer import NERAnalyzer
 from src.pdf_report_generator import PDFReportGenerator
 
 
-def generate_url_list(csv_path: str, output_path: str, top_n: int = 20):
+def generate_url_list(csv_path: str, output_path: str, top_n: int = 30):
     """Generate text file with apartment URLs for easy copy-paste"""
 
     df = pd.read_csv(csv_path)
-    df_filtered = df[df['area_m2'] >= 30].sort_values('ner')
+    df_filtered = df[df['area_m2'] >= 40].sort_values('ner_per_m2')
     top_apartments = df_filtered.head(top_n)
 
     with open(output_path, 'w') as f:
         f.write("=" * 80 + "\n")
-        f.write("TOP 20 APARTMENTS - IDEALISTA LISTING URLS\n")
+        f.write(f"TOP {top_n} APARTMENTS - IDEALISTA LISTING URLS\n")
         f.write("Net Effective Rent Analysis - Porta 65 Jovem\n")
         f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         f.write("=" * 80 + "\n\n")
@@ -94,13 +94,13 @@ def generate_pdf_report(csv_path: str, output_dir: str = 'reports'):
 
     # Step 1: Analyze data
     print("📊 Analyzing apartment data...")
-    analyzer = NERAnalyzer(csv_path, min_area=30)
+    analyzer = NERAnalyzer(csv_path, min_area=40)
     analyzer.analyze()
 
     # Step 2: Get all data needed for report
     print("📈 Gathering statistics...")
     summary_stats = analyzer.get_summary_stats()
-    top_apartments = analyzer.get_top_n(n=20)
+    top_apartments = analyzer.get_top_n(n=30)
     categories = analyzer.get_by_category()
     aru_comparison = analyzer.get_aru_comparison()
     size_analysis = analyzer.get_size_analysis()
@@ -129,8 +129,8 @@ def generate_pdf_report(csv_path: str, output_dir: str = 'reports'):
     # Executive Summary
     pdf.add_summary_box(summary_stats)
 
-    # Top 20 apartments table
-    pdf.add_top_apartments_table(top_apartments, top_n=20)
+    # Top 30 apartments table
+    pdf.add_top_apartments_table(top_apartments, top_n=30)
 
     # Categories (on new pages for better layout)
     if len(categories['furnished_t1']) > 0:
@@ -167,14 +167,14 @@ def generate_pdf_report(csv_path: str, output_dir: str = 'reports'):
     pdf.add_footer_notes(has_tier2=has_tier2)
 
     # URL Reference Page (clickable links)
-    pdf.add_url_reference_page(top_apartments, top_n=20)
+    pdf.add_url_reference_page(top_apartments, top_n=30)
 
     # Build PDF
     pdf.build()
 
     # Generate URL text file
     url_list_path = f'{output_dir}/apartment_urls.txt'
-    generate_url_list(csv_output, url_list_path, top_n=20)
+    generate_url_list(csv_output, url_list_path, top_n=30)
 
     # Print summary
     print()

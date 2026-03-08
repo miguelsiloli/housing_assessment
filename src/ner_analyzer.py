@@ -33,11 +33,11 @@ SUBSIDY_PERCENTAGE = 0.50  # 50% for 1st tier, Year 1
 class NERAnalyzer:
     """Analyzes apartments and calculates Net Effective Rent"""
 
-    def __init__(self, csv_path: str, min_area: float = 30):
+    def __init__(self, csv_path: str, min_area: float = 40):
         """
         Args:
             csv_path: Path to apartments CSV
-            min_area: Minimum area in m² to include (default 30)
+            min_area: Minimum area in m² to include (default 40)
         """
         self.df = pd.read_csv(csv_path)
         self.min_area = min_area
@@ -155,8 +155,8 @@ class NERAnalyzer:
         else:
             self.results = pd.concat([self.df, df_tier1], axis=1)
 
-        # Sort by NER Tier 1 (lowest = best)
-        self.results = self.results.sort_values('ner')
+        # Sort by NER per m² Tier 1 (lowest = best value)
+        self.results = self.results.sort_values('ner_per_m2')
 
         return self.results
 

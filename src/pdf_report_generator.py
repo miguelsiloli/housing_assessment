@@ -138,10 +138,10 @@ class PDFReportGenerator:
         self.story.append(table)
         self.story.append(Spacer(1, 0.5*cm))
 
-    def add_top_apartments_table(self, df: pd.DataFrame, top_n: int = 20):
+    def add_top_apartments_table(self, df: pd.DataFrame, top_n: int = 30):
         """Add table of top N apartments"""
 
-        self.add_heading(f'Top {top_n} Apartments by Net Effective Rent')
+        self.add_heading(f'Top {top_n} Apartments by Net Effective Rent per m²')
 
         # Check if we have Tier 2 data
         has_tier2 = 'ner_tier2' in df.columns
@@ -417,11 +417,11 @@ class PDFReportGenerator:
         self.story.append(table)
         self.story.append(Spacer(1, 0.5*cm))
 
-    def add_url_reference_page(self, df: pd.DataFrame, top_n: int = 20):
+    def add_url_reference_page(self, df: pd.DataFrame, top_n: int = 30):
         """Add a dedicated page with full URLs for easy access"""
 
         self.story.append(PageBreak())
-        self.add_heading('📋 Apartment Listing URLs - Top 20')
+        self.add_heading(f'📋 Apartment Listing URLs - Top {top_n}')
 
         # Create URL table
         headers = ['#', 'NER (T1)', 'Type', 'Area', 'Full URL']

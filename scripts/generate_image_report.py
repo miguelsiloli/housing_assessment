@@ -129,7 +129,7 @@ def create_image_report(df, output_path='reports/apartments_with_images.pdf'):
     story = []
 
     # Title
-    story.append(Paragraph("🏠 Top 20 Lisbon Apartments - Net Effective Rent Analysis", styles['ReportTitle']))
+    story.append(Paragraph("🏠 Top 30 Lisbon Apartments - Net Effective Rent per m²", styles['ReportTitle']))
     story.append(Paragraph(
         f"With Photos & Standardized Scores • {datetime.now().strftime('%B %d, %Y')}",
         styles['Normal']
@@ -178,11 +178,11 @@ def create_image_report(df, output_path='reports/apartments_with_images.pdf'):
     # Table header
     headers = ['#', 'Image', 'Details', 'NER (T1/T2)', 'Scores (1-5)', 'Location & Amenities']
 
-    # Build rows for top 20
-    top_20 = df.head(20)
+    # Build rows for top 30
+    top_30 = df.head(30)
     table_data = [headers]
 
-    for idx, (i, row) in enumerate(top_20.iterrows(), 1):
+    for idx, (i, row) in enumerate(top_30.iterrows(), 1):
         # Column 1: Rank
         rank = Paragraph(f"<b>{idx}</b>", styles['Normal'])
 

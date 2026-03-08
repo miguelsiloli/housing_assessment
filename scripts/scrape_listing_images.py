@@ -112,9 +112,9 @@ def main():
     images_dir.mkdir(exist_ok=True)
     print(f"📁 Images will be saved to: {images_dir}")
 
-    # Get top 20 by NER (Tier 1)
-    top_20 = df.head(20)
-    print(f"\n🎯 Scraping images for top 20 listings by NER...")
+    # Get top 30 by NER per m²
+    top_30 = df.head(30)
+    print(f"\n🎯 Scraping images for top 30 listings by NER per m²...")
     print("Using Selenium to bypass bot detection...")
 
     # Initialize Selenium scraper
@@ -127,11 +127,11 @@ def main():
     success_count = 0
 
     try:
-        for idx, (i, row) in enumerate(top_20.iterrows(), 1):
+        for idx, (i, row) in enumerate(top_30.iterrows(), 1):
             url = row['url']
             listing_id = url.split('/')[-2] if '/imovel/' in url else f'listing_{i}'
 
-            print(f"\n[{idx}/20] Processing: {listing_id}")
+            print(f"\n[{idx}/30] Processing: {listing_id}")
             print(f"  URL: {url}")
 
             # Scrape image URL using Selenium
@@ -170,7 +170,7 @@ def main():
     print("\n" + "=" * 80)
     print("IMAGE SCRAPING COMPLETE")
     print("=" * 80)
-    print(f"✓ Successfully downloaded: {success_count}/20 images")
+    print(f"✓ Successfully downloaded: {success_count}/30 images")
     print(f"✓ Saved data to: {output_file}")
     print(f"✓ Images directory: {images_dir}")
 
