@@ -26,48 +26,26 @@ class IdealistaScraper:
         self.base_url = "https://www.idealista.pt"
         is_ci = bool(os.getenv('CI') or os.getenv('GITHUB_ACTIONS'))
 
-        # In CI, use standard Selenium with webdriver-manager for version compatibility
-        if is_ci:
-            print("Detected CI environment - using standard Selenium WebDriver")
-            from selenium import webdriver
-            from selenium.webdriver.chrome.service import Service
-            from selenium.webdriver.chrome.options import Options
+        # Always use undetected-chromedriver to bypass bot detection
+        print(f"Initializing undetected-chromedriver (CI={is_ci}, headless={headless})")
+        options = uc.ChromeOptions()
 
-            options = Options()
+        if headless or is_ci:
             options.add_argument('--headless=new')
-            options.add_argument('--no-sandbox')
-            options.add_argument('--disable-dev-shm-usage')
-            options.add_argument('--disable-gpu')
-            options.add_argument('--window-size=1920,1080')
-            options.add_argument('--disable-blink-features=AutomationControlled')
-            options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36')
 
-            # Try to use webdriver-manager if available, otherwise use default
-            try:
-                from webdriver_manager.chrome import ChromeDriverManager
-                service = Service(ChromeDriverManager().install())
-                self.driver = webdriver.Chrome(service=service, options=options)
-                print("✓ Using ChromeDriverManager")
-            except ImportError:
-                print("webdriver-manager not available, using system chromedriver")
-                self.driver = webdriver.Chrome(options=options)
-        else:
-            # Local environment - use undetected-chromedriver
-            print("Using undetected-chromedriver for local environment")
-            options = uc.ChromeOptions()
-            if headless:
-                options.add_argument('--headless=new')
-            options.add_argument('--no-sandbox')
-            options.add_argument('--disable-dev-shm-usage')
-            options.add_argument('--disable-blink-features=AutomationControlled')
-            options.add_argument('--disable-gpu')
-            options.add_argument('--window-size=1920,1080')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--disable-blink-features=AutomationControlled')
+        options.add_argument('--disable-gpu')
+        options.add_argument('--window-size=1920,1080')
 
-            try:
-                self.driver = uc.Chrome(options=options, version_main=143)
-            except Exception as e:
-                print(f"Failed with version 143, trying auto-detect: {e}")
-                self.driver = uc.Chrome(options=options)
+        try:
+            self.driver = uc.Chrome(options=options, version_main=143)
+            print("✓ Using undetected-chromedriver v143")
+        except Exception as e:
+            print(f"Failed with version 143, trying auto-detect: {e}")
+            self.driver = uc.Chrome(options=options)
+            print("✓ Using undetected-chromedriver (auto-detected version)")
 
         self.driver.implicitly_wait(10)
 
