@@ -1,21 +1,10 @@
 ================================================================================
-TOP 20 APARTMENTS - IDEALISTA LISTING URLS
+TOP 30 APARTMENTS - IDEALISTA LISTING URLS
 Net Effective Rent Analysis - Porta 65 Jovem
-Generated: 2026-03-08 13:49:47
+Generated: 2026-03-08 14:25:56
 ================================================================================
 
-#1 - NER: €267 (T1) | €368 (T2)
-Gross Rent: €850
-Type: T1 | Area: 40m²
-Location: Rua do Laranjal, 39 a, Calçada da Ajuda - Belém, Ajuda
-🏛️ ARU Zone (receives +20% subsidy bonus)
-Amenities: Elevator
-
-URL: https://www.idealista.pt/imovel/34838255/
-
---------------------------------------------------------------------------------
-
-#2 - NER: €285 (T1) | €393 (T2)
+#1 - NER: €285 (T1) | €393 (T2)
 Gross Rent: €900
 Type: T2 | Area: 80m²
 Location: Rua do Alvito, 80, Alvito - Quinta do Jacinto, Alcântara
@@ -26,7 +15,7 @@ URL: https://www.idealista.pt/imovel/34855184/
 
 --------------------------------------------------------------------------------
 
-#3 - NER: €305 (T1) | €419 (T2)
+#2 - NER: €305 (T1) | €419 (T2)
 Gross Rent: €950
 Type: T2 | Area: 70m²
 Location: Rua Doutor António Ribeiro dos Santos, Calçada da Ajuda - Belém, Ajuda
@@ -37,71 +26,18 @@ URL: https://www.idealista.pt/imovel/34844431/
 
 --------------------------------------------------------------------------------
 
-#4 - NER: €350 (T1) | €435 (T2)
-Gross Rent: €850
-Type: T2 | Area: 54m²
+#3 - NER: €425 (T1) | €525 (T2)
+Gross Rent: €1000
+Type: T2 | Area: 80m²
+Location: Praceta Ângelo Veloso, Alfragide, Amadora
 Amenities: Elevator
+Distance to work: 3.7km
 
-URL: https://www.idealista.pt/imovel/33795030/
+URL: https://www.idealista.pt/imovel/28966744/
 
 --------------------------------------------------------------------------------
 
-#5 - NER: €367 (T1) | €468 (T2)
-Gross Rent: €950
-Type: T1 | Area: 45m²
-Location: Travessa São Jerónimo, 2, Alvito - Quinta do Jacinto, Alcântara
-🏛️ ARU Zone (receives +20% subsidy bonus)
-Amenities: Elevator
-
-URL: https://www.idealista.pt/imovel/31161260/
-
---------------------------------------------------------------------------------
-
-#6 - NER: €367 (T1) | €468 (T2)
-Gross Rent: €950
-Type: T1 | Area: 60m²
-Location: Rua Indústria, Alto de Santo Amaro, Alcântara
-🏛️ ARU Zone (receives +20% subsidy bonus)
-Amenities: Elevator
-
-URL: https://www.idealista.pt/imovel/30166333/
-
---------------------------------------------------------------------------------
-
-#7 - NER: €367 (T1) | €468 (T2)
-Gross Rent: €950
-Type: T1 | Area: 45m²
-Location: Travessa de São Jerónimo, Alvito - Quinta do Jacinto, Alcântara
-🏛️ ARU Zone (receives +20% subsidy bonus)
-Amenities: Elevator
-
-URL: https://www.idealista.pt/imovel/34851984/
-
---------------------------------------------------------------------------------
-
-#8 - NER: €369 (T1) | €500 (T2)
-Gross Rent: €1100
-Type: T2 | Area: 42m²
-Location: Rua Cruz a Alcântara, 36, Alvito - Quinta do Jacinto, Alcântara
-🏛️ ARU Zone (receives +20% subsidy bonus)
-Amenities: Elevator
-
-URL: https://www.idealista.pt/imovel/33157926/
-
---------------------------------------------------------------------------------
-
-#9 - NER: €369 (T1) | €500 (T2)
-Gross Rent: €1100
-Type: T2 | Area: 55m²
-Location: Travessa do Gibraltar, Alvito - Quinta do Jacinto, Alcântara
-🏛️ ARU Zone (receives +20% subsidy bonus)
-Amenities: Elevator
-
-URL: https://www.idealista.pt/imovel/34839733/
-
---------------------------------------------------------------------------------
-
-#10 - NER: €397 (T1) | €498 (T2)
+#4 - NER: €397 (T1) | €498 (T2)
 Gross Rent: €980
 Type: nan | Area: 65m²
 Location: Estrada da Cruz, 92, Caramão da Ajuda, Ajuda
@@ -113,7 +49,37 @@ URL: https://www.idealista.pt/imovel/34851376/
 
 --------------------------------------------------------------------------------
 
-#11 - NER: €397 (T1) | €498 (T2)
+#5 - NER: €367 (T1) | €468 (T2)
+Gross Rent: €950
+Type: T1 | Area: 60m²
+Location: Rua Indústria, Alto de Santo Amaro, Alcântara
+🏛️ ARU Zone (receives +20% subsidy bonus)
+Amenities: Elevator
+
+URL: https://www.idealista.pt/imovel/30166333/
+
+--------------------------------------------------------------------------------
+
+#6 - NER: €502 (T1) | €586 (T2)
+Gross Rent: €1000
+Type: T1 | Area: 80m²
+Location: Rua Dom Carlos de Mascarenhas, Centro, Campolide
+Amenities: Elevator
+
+URL: https://www.idealista.pt/imovel/34783316/
+
+--------------------------------------------------------------------------------
+
+#7 - NER: €350 (T1) | €435 (T2)
+Gross Rent: €850
+Type: T2 | Area: 54m²
+Amenities: Elevator
+
+URL: https://www.idealista.pt/imovel/33795030/
+
+--------------------------------------------------------------------------------
+
+#8 - NER: €397 (T1) | €498 (T2)
 Gross Rent: €980
 Type: T1 | Area: 60m²
 Location: Estrada da cruz, 94, Caramão da Ajuda, Ajuda
@@ -125,7 +91,102 @@ URL: https://www.idealista.pt/imovel/31443190/
 
 --------------------------------------------------------------------------------
 
-#12 - NER: €402 (T1) | €486 (T2)
+#9 - NER: €267 (T1) | €368 (T2)
+Gross Rent: €850
+Type: T1 | Area: 40m²
+Location: Rua do Laranjal, 39 a, Calçada da Ajuda - Belém, Ajuda
+🏛️ ARU Zone (receives +20% subsidy bonus)
+Amenities: Elevator
+
+URL: https://www.idealista.pt/imovel/34838255/
+
+--------------------------------------------------------------------------------
+
+#10 - NER: €369 (T1) | €500 (T2)
+Gross Rent: €1100
+Type: T2 | Area: 55m²
+Location: Travessa do Gibraltar, Alvito - Quinta do Jacinto, Alcântara
+🏛️ ARU Zone (receives +20% subsidy bonus)
+Amenities: Elevator
+
+URL: https://www.idealista.pt/imovel/34839733/
+
+--------------------------------------------------------------------------------
+
+#11 - NER: €602 (T1) | €686 (T2)
+Gross Rent: €1100
+Type: T1 | Area: 80m²
+Location: Rua Arco do Carvalhão, Centro, Campolide
+Amenities: Elevator
+
+URL: https://www.idealista.pt/imovel/34797595/
+
+--------------------------------------------------------------------------------
+
+#12 - NER: €367 (T1) | €468 (T2)
+Gross Rent: €950
+Type: T1 | Area: 45m²
+Location: Travessa São Jerónimo, 2, Alvito - Quinta do Jacinto, Alcântara
+🏛️ ARU Zone (receives +20% subsidy bonus)
+Amenities: Elevator
+
+URL: https://www.idealista.pt/imovel/31161260/
+
+--------------------------------------------------------------------------------
+
+#13 - NER: €367 (T1) | €468 (T2)
+Gross Rent: €950
+Type: T1 | Area: 45m²
+Location: Travessa de São Jerónimo, Alvito - Quinta do Jacinto, Alcântara
+🏛️ ARU Zone (receives +20% subsidy bonus)
+Amenities: Elevator
+
+URL: https://www.idealista.pt/imovel/34851984/
+
+--------------------------------------------------------------------------------
+
+#14 - NER: €369 (T1) | €500 (T2)
+Gross Rent: €1100
+Type: T2 | Area: 42m²
+Location: Rua Cruz a Alcântara, 36, Alvito - Quinta do Jacinto, Alcântara
+🏛️ ARU Zone (receives +20% subsidy bonus)
+Amenities: Elevator
+
+URL: https://www.idealista.pt/imovel/33157926/
+
+--------------------------------------------------------------------------------
+
+#15 - NER: €602 (T1) | €686 (T2)
+Gross Rent: €1100
+Type: T1 | Area: 65m²
+Location: Rua Professor Sousa da Câmara, Centro, Campolide
+Amenities: Elevator
+
+URL: https://www.idealista.pt/imovel/34796095/
+
+--------------------------------------------------------------------------------
+
+#16 - NER: €602 (T1) | €686 (T2)
+Gross Rent: €1100
+Type: T1 | Area: 61m²
+Location: Rua de Campolide, 152, Centro, Campolide
+Amenities: Elevator
+
+URL: https://www.idealista.pt/imovel/34860028/
+
+--------------------------------------------------------------------------------
+
+#17 - NER: €502 (T1) | €586 (T2)
+Gross Rent: €1000
+Type: T1 | Area: 50m²
+Location: Rua Arco do Carvalhão, 35, Centro, Campolide
+Amenities: Elevator
+
+URL: https://www.idealista.pt/imovel/33018222/
+
+--------------------------------------------------------------------------------
+
+#18 - NER: €402 (T1) | €486 (T2)
 Gross Rent: €900
 Type: T1 | Area: 40m²
 Location: Rua Arco do Carvalhão, 35, Centro, Campolide
@@ -135,18 +196,26 @@ URL: https://www.idealista.pt/imovel/30543042/
 
 --------------------------------------------------------------------------------
 
-#13 - NER: €425 (T1) | €525 (T2)
-Gross Rent: €1000
-Type: T2 | Area: 80m²
-Location: Praceta Ângelo Veloso, Alfragide, Amadora
+#19 - NER: €602 (T1) | €686 (T2)
+Gross Rent: €1100
+Type: T1 | Area: 56m²
+Location: Rua Conde das Antas, Centro, Campolide
 Amenities: Elevator
-Distance to work: 3.7km
 
-URL: https://www.idealista.pt/imovel/28966744/
+URL: https://www.idealista.pt/imovel/34786339/
 
 --------------------------------------------------------------------------------
 
-#14 - NER: €450 (T1) | €515 (T2)
+#20 - NER: €652 (T1) | €736 (T2)
+Gross Rent: €1150
+Type: nan | Area: 60m²
+Amenities: Elevator
+
+URL: https://www.idealista.pt/imovel/34842350/
+
+--------------------------------------------------------------------------------
+
+#21 - NER: €450 (T1) | €515 (T2)
 Gross Rent: €850
 Type: T0 | Area: 40m²
 Amenities: Elevator
@@ -155,7 +224,7 @@ URL: https://www.idealista.pt/imovel/34814425/
 
 --------------------------------------------------------------------------------
 
-#15 - NER: €450 (T1) | €515 (T2)
+#22 - NER: €450 (T1) | €515 (T2)
 Gross Rent: €850
 Type: T0 | Area: 40m²
 Amenities: Elevator
@@ -164,7 +233,16 @@ URL: https://www.idealista.pt/imovel/34812075/
 
 --------------------------------------------------------------------------------
 
-#16 - NER: €470 (T1) | €535 (T2)
+#23 - NER: €640 (T1) | €725 (T2)
+Gross Rent: €1139
+Type: T1 | Area: 55m²
+Amenities: Elevator
+
+URL: https://www.idealista.pt/imovel/34839454/
+
+--------------------------------------------------------------------------------
+
+#24 - NER: €470 (T1) | €535 (T2)
 Gross Rent: €870
 Type: T0 | Area: 40m²
 Amenities: Elevator
@@ -173,7 +251,7 @@ URL: https://www.idealista.pt/imovel/34809700/
 
 --------------------------------------------------------------------------------
 
-#17 - NER: €500 (T1) | €565 (T2)
+#25 - NER: €500 (T1) | €565 (T2)
 Gross Rent: €900
 Type: T0 | Area: 41m²
 Location: Rua b Ao Bairro da Liberdade, 85, Bairro da Serafina, Campolide
@@ -183,7 +261,7 @@ URL: https://www.idealista.pt/imovel/34764482/
 
 --------------------------------------------------------------------------------
 
-#18 - NER: €500 (T1) | €565 (T2)
+#26 - NER: €500 (T1) | €565 (T2)
 Gross Rent: €900
 Type: T0 | Area: 41m²
 Location: Rua Inácio Pardelhas Sanchez, Bairro da Serafina, Campolide
@@ -193,23 +271,40 @@ URL: https://www.idealista.pt/imovel/34767786/
 
 --------------------------------------------------------------------------------
 
-#19 - NER: €502 (T1) | €586 (T2)
-Gross Rent: €1000
-Type: T1 | Area: 31m²
-Location: Rua Arco do Carvalhão, 75, Centro, Campolide
+#27 - NER: €674 (T1) | €759 (T2)
+Gross Rent: €1173
+Type: T1 | Area: 55m²
 Amenities: Elevator
 
-URL: https://www.idealista.pt/imovel/34814996/
+URL: https://www.idealista.pt/imovel/34844873/
 
 --------------------------------------------------------------------------------
 
-#20 - NER: €502 (T1) | €586 (T2)
-Gross Rent: €1000
-Type: T1 | Area: 80m²
-Location: Rua Dom Carlos de Mascarenhas, Centro, Campolide
+#28 - NER: €520 (T1) | €585 (T2)
+Gross Rent: €920
+Type: T0 | Area: 40m²
 Amenities: Elevator
 
-URL: https://www.idealista.pt/imovel/34783316/
+URL: https://www.idealista.pt/imovel/34803526/
+
+--------------------------------------------------------------------------------
+
+#29 - NER: €700 (T1) | €765 (T2)
+Gross Rent: €1100
+Type: T0 | Area: 53m²
+Amenities: Elevator
+
+URL: https://www.idealista.pt/imovel/34739904/
+
+--------------------------------------------------------------------------------
+
+#30 - NER: €602 (T1) | €686 (T2)
+Gross Rent: €1100
+Type: T1 | Area: 45m²
+Location: Rua Conde das Antas, Centro, Campolide
+Amenities: Elevator
+
+URL: https://www.idealista.pt/imovel/34782219/
 
 --------------------------------------------------------------------------------
 
