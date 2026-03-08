@@ -358,6 +358,11 @@ def main():
     df = pd.read_csv(data_file)
     print(f"\n📊 Loaded {len(df)} apartments")
 
+    # Filter to minimum 40m² and sort by NER per m²
+    df = df[df['area_m2'] >= 40].copy()
+    df = df.sort_values('ner_per_m2')
+    print(f"📏 Filtered to {len(df)} apartments (≥40m²)")
+
     # Check how many have images
     has_images = df['image_path'].notna().sum()
     print(f"📸 Apartments with images: {has_images}")
